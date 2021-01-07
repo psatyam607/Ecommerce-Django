@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Products {% endblock %}
+{% block ptitle %} Products {% endblock %}
+{% block main %}
+        <div class="row">
+            <div class="col-sm-8">
+                <h4>All Products</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Photo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in prods %}
+                            <tr>
+                                <td>{{p.id}}</td>
+                                <td>{{p.pname}}</td>
+                                <td>{{p.pcat.cname}}</td>
+                                <td>{{p.price}}</td>
+                                <td><img src="{{p.photo.url}}" width="100"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <h4>Add New Product</h4>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="pname" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Product Category</label>
+                        <select name="pcat" class="form-control">
+                            {% for cat in cats %}
+                            <option value='{{cat.id}}'>{{cat.cname}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" name="price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <input type="file" name="photo" class="form-control">
+                    </div>
+                    <input type="submit" value="Save Product" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+{% endblock %}
